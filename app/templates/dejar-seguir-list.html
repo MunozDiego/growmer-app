@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block body%}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Dejar de Seguir</h1>
+    </div>
+
+    <!-- Content Row -->
+    <div >
+      <div class="w-auto p-3">
+        <form method="post" action="{{ url_for('main.unfollow_list') }}">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {%for category,messages in messages %}
+                    <div class="alert alert-{{category}}" role="alert">
+                        {{ messages }}
+                    </div> <!-- end success -->  
+                        {% endfor %}
+                    {% endif %}
+          {% endwith %}
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                <label for="user_list">Usuarios que dejaras de seguir</label>
+                {{form.user_list(id="user_list", class="form-control", placeholder="username1, username2, username3")}}
+                <small  class="form-text text-muted">Es importante que cada nombre de usuario este separado por una coma seguido de un espacio tal como en el ejemplo.</small>     
+            </div>
+          
+            {{form.submit(id="dejar-seguir-list", class="btn btn-primary")}}
+            <div id="divMsg" style="display:none;">
+              <button id="1test" class="btn btn-primary" type="button" disabled >
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Automatizando...
+              </button>
+            </div>          
+           
+        </form>
+      </div>
+    </div>
+  <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+{% endblock %}

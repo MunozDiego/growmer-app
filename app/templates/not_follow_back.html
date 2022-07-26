@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block body%}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">¿Quien no me sigue de vuelta?</h1>
+    </div>
+    <div class="container">
+    <p>
+      Para saber cuales de tus amigos no te sigue de vuelta, solo tienes que presionar el boton "obtener" de más abajo y luego de algunos minutos veras una tabla con los nombres
+      de usuario de las personas que no te siguen de vuelta.
+    </p>
+    </div>
+    <!-- Content Row -->
+    <div >
+      <div class="w-auto p-3">
+        <form method="post" action="{{ url_for('main.not_follow_back') }}">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {%for category,messages in messages %}
+                    <div class="alert alert-{{category}}" role="alert">
+                        {{ messages }}
+                    </div> <!-- end success -->  
+                        {% endfor %}
+                    {% endif %}
+          {% endwith %}
+          {{ form.hidden_tag() }}
+          {{form.submit(id="not-follow-back", class="btn btn-primary btn-user btn-block")}}
+          <div id="divMsg" style="display:none;">
+            <button id="1test" class="btn btn-primary btn-user btn-block" type="button" disabled >
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Cargando...
+            </button>
+          </div>
+          <small  class="form-text text-muted">Mientras más seguidores tengas, más demorara el proceso. A la vez, más probable es que no podamos acceder al total de usuarios. </small>     
+          <small  class="form-text text-muted">No es recomendable usar esta herramienta si tienes más de 500 seguidores o sigues a más de 500 personas. El tiempo de espera sube exponencialmente. </small>     
+        </form>
+      </div>
+    </div>
+  <!-- /.container-fluid -->
+
+  <!-- DataTales Example -->
+  {% if not_follow_back != None %}
+
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary"><strong>n° seguidores obtenidos:</strong> {{n_followers}} <strong>n° seguidos obtenidos:</strong> {{n_following}}</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Nombre de usuario</th>
+            </tr>
+          </thead>
+          {% for user in not_follow_back %}
+          <tbody>
+            <tr>
+              <td>{{user}}</td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+
+<!-- /.container-fluid -->
+{% endif %}
+
+</div>
+<!-- End of Main Content -->
+
+{% endblock %}

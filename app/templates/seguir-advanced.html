@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% from "_formhelper.html" import render_field %}
+
+{% block body%}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Seguir Usuarios</h1>
+    </div>
+
+    <!-- Content Row -->
+    <div >
+      <div class="w-auto p-3">
+        <form method="post" action="{{ url_for('main.seguir_advanced') }}">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {%for category,messages in messages %}
+                    <div class="alert alert-{{category}}" role="alert">
+                        {{ messages }}
+                    </div> <!-- end success -->  
+                        {% endfor %}
+                    {% endif %}
+          {% endwith %}
+          {{ form.hidden_tag() }}
+          <div class="form-group">
+            <label for="seed">{{form.seed.label}}</label>
+            {{form.seed(class="form-control", placeholder="#hashtag")}}
+            <small id="seedHelp" class="form-text text-muted">Ingresa un hashtag (antepuesto por un signo #) para obtener las cuentas a las que se evaluara seguir.</small>
+          </div>
+          <div class="form-group">
+            <label for="n_follows">{{form.n_follows.label}}</label>
+            {{render_field(form.n_follows, class="form-control")}}
+            <small id="n_followsHelp" class="form-text text-muted">Ingresa el numero de cuentas que quieres seguir en esta sesión.</small>
+          </div>
+          <div class="form-row">
+            <div class="col -md-3 mb-3">
+              <label for="n_min_followers">Min. Seguidores</label>
+              {{render_field(form.n_min_followers, class="form-control")}}
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="n_max_followers">Max. Seguidores</label>
+                {{render_field(form.n_max_followers, class="form-control")}}
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="post_min_requirement">Min. Publicaciones</label>
+                {{render_field(form.post_min_requirement, class="form-control")}}
+              </div>
+            <div class="col-md-3 mb-3">
+                <label for="n_max_following">Max. Seguidos</label>
+                {{render_field(form.n_max_following, class="form-control")}}
+              </div>
+          </div>
+        
+          <div class="form-row">
+            <div class="col-md-3 mb-3">
+                <label for="delta_down">Delta inferior (%)</label>
+                {{render_field(form.delta_down, class="form-control")}}
+              </div>
+            <div class="col-md-3 mb-3">
+                <label for="delta_up">Delta superior</label>
+                {{render_field(form.delta_up, class="form-control")}}
+              </div>
+            <div class="col-md-3 mb-3">
+              <label for="time_lag_down">Rango Inferior</label>
+              {{render_field(form.time_lag_down, class="form-control")}}
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="time_lag_up">Rango Superior</label>
+                {{render_field(form.time_lag_up, class="form-control")}}
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-9 mb-3"> 
+            <small  class="form-text text-muted">Para saber la utilidad de cada apartado, por favor leer la documentación disponible en growmer.com/documentacion/beta/introduccion </small>     
+          </div>
+        </div>
+
+
+        {{form.submit(id="seguir", class="btn btn-primary")}}
+        <div id="divMsg" style="display:none;">
+          <button id="1test" class="btn btn-primary" type="button" disabled >
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Automatizando...
+          </button>
+        </div>
+        </form>
+      </div>
+    </div>
+  <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+{% endblock %}

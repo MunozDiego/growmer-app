@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block body%}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Dejar de Seguir</h1>
+    </div>
+
+    <!-- Content Row -->
+    <div >
+      <div class="w-auto p-3">
+        <form method="post" action="{{ url_for('main.unfollow') }}">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {%for category,messages in messages %}
+                    <div class="alert alert-{{category}}" role="alert">
+                        {{ messages }}
+                    </div> <!-- end success -->  
+                        {% endfor %}
+                    {% endif %}
+          {% endwith %}
+          {%if use_follow_tool=="False"%}
+          <div class="alert alert-warning" role="alert">
+            Para utilizar este recurso, primero debes utilizar la herramienta para seguir usuarios.
+          </div>
+          {%endif%}
+            {{ form.hidden_tag() }}
+          <div class="form-group">
+            <label for="date">{{form.date.label}}</label>
+            {{form.date(class="form-control")}}
+            <small id="dateHelp" class="form-text text-muted">Selecciona el día que quieres dejar de seguir.</small>
+          </div>
+          <div class="form-row mb-3">
+            <div class="custom-control custom-switch">
+                {{form.unfollow_all( class="custom-control-input")}}
+              <label class="custom-control-label" for="unfollow_all">Dejar de seguir solo a los usuarios que no me siguieron de vuelta.</label>
+            </div>
+          </div>
+          {%if use_follow_tool=="False"%}
+          {% else %}
+          {{form.submit(id="dejar-seguir", class="btn btn-primary")}}
+          {% endif %}
+          <div id="divMsg" style="display:none;">
+            <button id="1test" class="btn btn-primary" type="button" disabled >
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Cargando...
+            </button>
+          </div>
+          <a id="dsList" href="{{url_for('main.unfollow_list')}}" class="btn btn-secondary" >Ingresar usuarios de forma manual</a>
+        </form>
+      </div>
+    </div>
+  <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+{% endblock %}
